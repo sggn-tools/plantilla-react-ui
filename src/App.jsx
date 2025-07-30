@@ -1,10 +1,13 @@
 import React from 'react'
 import AppRouter from './router/AppRouter'
+import LoadingSpinner from './features/auth/components/LoadingSpinner'
 
 function App() {
   return (
-  <AppRouter />
-      
+    <>
+      <LoadingSpinner />
+      <AppRouter />
+    </>
   )
 }
 

@@ -92,7 +92,6 @@ const Navbar = ({ isCollapsed, toggleSidebar }) => { // Recibe props para contro
         </div>
         <ul className="sidebar-nav list-unstyled" id="sidebar-nav">
             {menuItems
-                .sort((a,b) => a.order - b.order)
                 .map(renderMenuItem)}
         </ul>
         </aside>

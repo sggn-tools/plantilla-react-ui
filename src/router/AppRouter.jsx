@@ -22,9 +22,7 @@ const AppRouter = () => {
         {/* Rutas de autenticación */}
         <Route path="/login" element={
           isAuthenticated ? <Navigate to="/dashboard" replace /> : (
-            <React.Suspense fallback={<div>Cargando...</div>}>
               <LoginPage />
-            </React.Suspense>
           )
         } />
 
@@ -35,7 +33,6 @@ const AppRouter = () => {
         <Route
           path="/*" // Coincide con cualquier ruta que no sea /login o /
           element={
-            <React.Suspense fallback={<div>Cargando...</div>}>
               <ProtectedRoute>
                 <MainLayout>
                   {/* Rutas anidadas dentro de MainLayout */}
@@ -47,7 +44,6 @@ const AppRouter = () => {
                   </Routes>
                 </MainLayout>
               </ProtectedRoute>
-            </React.Suspense>
           }
         />
       </Routes>
