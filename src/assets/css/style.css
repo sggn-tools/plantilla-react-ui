@@ -1,0 +1,420 @@
+/* src/assets/css/layout.css */
+
+/* --- Estilos Generales --- */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    background-color: #f0f2f5;
+}
+
+.app-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Header --- */
+.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* --- Wrapper Principal para Sidebar y Contenido --- */
+.wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh; /* Ocupa toda la altura */
+    transition: all 0.3s ease-in-out;
+    margin-top: 56px; /* Deja espacio para el header fijo */
+}
+
+/* --- Sidebar --- */
+.sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
+    overflow-y: auto;
+    transition: width 0.3s ease, left 0.3s ease;
+    z-index: 1020;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+.content-area {
+    flex-grow: 1;
+    margin-left: 250px;
+    padding: 80px 20px 20px 20px;
+    transition: margin-left 0.3s ease;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ESTADO COLAPSADO DEL SIDEBAR (se aplica a .sidebar si tiene la clase .collapsed) */
+.sidebar.collapsed {
+    min-width: 80px;
+    max-width: 80px;
+    text-align: center;
+}
+
+.sidebar.collapsed .sidebar-header h3 {
+    display: none; /* Oculta el título "Menú" */
+}
+
+.sidebar.collapsed .sidebar-header {
+    padding: 10px 0; /* Ajusta padding para header colapsado */
+}
+
+.sidebar.collapsed .sidebar-nav .nav-link span:not(.bi) { /* Oculta el texto de los enlaces principales */
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-nav .nav-link i {
+    margin-right: 0 !important; /* Elimina margen derecho de iconos */
+    font-size: 1.2em;
+}
+
+.sidebar.collapsed .sidebar-nav .nav-link {
+    justify-content: center; /* Centra los iconos */
+}
+
+.sidebar.collapsed .sidebar-nav .sidebar-dropdown > a .bi-chevron-down {
+    display: none; /* Oculta la flecha en modo colapsado */
+}
+
+/* Submenús en estado colapsado (aparecen al hacer click/hover) */
+.sidebar.collapsed .nav-content.collapse {
+    position: absolute;
+    left: 80px; /* Aparece al lado del sidebar colapsado */
+    /* top: 0;  // Quitar esto, o manejar dinámicamente si es necesario para cada submenú */
+    z-index: 1030; /* Por encima del contenido principal */
+    min-width: 200px;
+    background: #3a536b; /* Fondo para el submenú flotante */
+    border-radius: 0 5px 5px 0;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    /* Las propiedades de display y height son manejadas por Bootstrap's .collapse */
+}
+
+/* Estilos para el submenú colapsado cuando está visible (Bootstrap's .show) */
+.sidebar.collapsed .nav-content.collapse.show {
+    display: block !important; /* Asegura que se muestre como bloque */
+}
+
+
+/* Estilos del sidebar normal (expandido) */
+.sidebar-header {
+    padding: 20px 15px;
+    background: #1a252f;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.sidebar ul.sidebar-nav { /* Usamos sidebar-nav para ser más específicos */
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar ul.sidebar-nav li a,
+.sidebar ul.sidebar-nav li.sidebar-dropdown > a {
+    padding: 12px 20px;
+    display: flex; /* Para alinear icono y texto */
+    align-items: center;
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    font-size: 1.05rem;
+}
+
+.sidebar ul.sidebar-nav li a:hover,
+.sidebar ul.sidebar-nav li.sidebar-dropdown > a:hover {
+    background: #34495e;
+    color: #ffffff;
+}
+
+.sidebar ul.sidebar-nav li a.active,
+.sidebar ul.sidebar-nav li a.active:hover {
+    color: #fff;
+    background: #007bff;
+    border-left: 5px solid #28a745;
+    padding-left: 15px;
+    font-weight: 600;
+}
+
+.sidebar ul.sidebar-nav li a i,
+.sidebar ul.sidebar-nav li.sidebar-dropdown > a i {
+    margin-right: 12px;
+    font-size: 1.1rem;
+}
+
+/* Submenús */
+.nav-content { /* Clase base para submenús */
+    background: #3a536b;
+    padding-left: 30px;
+    list-style: none;
+}
+
+.nav-content li a.menu-item { /* Clase para los ítems dentro del submenú */
+    padding: 10px 20px;
+    font-size: 0.95em;
+    color: #cfd9e6;
+    display: flex;
+    align-items: center;
+}
+
+.nav-content li a.menu-item:hover {
+    background: #4a6781;
+    color: #ffffff;
+}
+
+.nav-content li a.menu-item.active {
+    border-left: 3px solid #28a745;
+    padding-left: 27px;
+    background: #4a6781;
+}
+
+/* --- Contenido Principal --- */
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: calc(100vh - 56px - 70px); /* Altura menos header y footer */
+    transition: all 0.3s ease-in-out;
+    margin-left: 250px; /* Margen para el sidebar expandido */
+    padding-top: 20px;
+    flex-grow: 1; /* Para que ocupe el espacio restante */
+}
+
+/* Cuando el wrapper tiene la clase 'toggled' (sidebar colapsado) */
+.wrapper.toggled #content {
+    margin-left: 80px; /* Margen para el sidebar colapsado */
+}
+
+/* --- Footer --- */
+footer {
+    padding: 20px;
+    background-color: #e9ecef;
+    text-align: center;
+    color: #6c757d;
+    margin-top: auto;
+}
+
+footer .text-muted {
+    color: #adb5bd !important;
+}
+
+footer a.text-muted {
+    color: #cfd9e6 !important;
+}
+
+footer a.text-muted:hover {
+    color: #ffffff !important;
+    text-decoration: underline !important;
+}
+
+/* --- Loading Spinner --- */
+.loading-spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* --- Login Page --- */
+.login-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%); /* Degradado de fondo */
+    padding: 20px;
+}
+
+.login-form-card {
+    max-width: 450px; /* Un poco más grande */
+    width: 100%;
+    padding: 2.5rem; /* Más padding */
+    background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+    border-radius: 12px; /* Bordes más redondeados */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* Sombra más pronunciada */
+    text-align: center;
+}
+
+.login-form-card .form-control {
+    border-radius: 8px; /* Bordes redondeados en inputs */
+    border: 1px solid #ced4da;
+    padding: 0.75rem 1rem;
+}
+
+.login-form-card .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+.login-form-card .btn-primary {
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.login-form-card .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.login-form-card .text-danger {
+    font-size: 0.9em;
+    text-align: left;
+    margin-top: 5px;
+}
+
+/* --- Page Content Container --- */
+.page-container {
+    padding: 30px; /* Más padding en las páginas */
+    max-width: 1400px; /* Ancho máximo para contenido */
+    margin: 0 auto;
+    background-color: #ffffff; /* Fondo blanco para el contenido */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Sombra sutil */
+    margin-bottom: 20px; /* Espacio antes del footer */
+}
+
+/* Estilos de Card de ejemplo para Dashboard/Home */
+.card.shadow-sm {
+    border: none;
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card.shadow-sm:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.card-title {
+    color: #343a40;
+    font-weight: 600;
+}
+
+.card-text.fs-2 {
+    color: #007bff; /* Color primario para números grandes */
+    font-weight: 700;
+}
+
+/* --- Overlay (solo para móvil) --- */
+.overlay {
+    display: none; /* Por defecto, el overlay está oculto */
+}
+
+/* Mobile: el overlay se muestra cuando el sidebar está abierto (no 'toggled') */
+.wrapper:not(.toggled) .overlay {
+    display: block;
+    opacity: 1;
+}
+
+
+/* --- Lógica Responsive: Desktop (>= 992px) --- */
+@media (min-width: 992px) {
+    
+    /* El sidebar inicia colapsado, ya que el JS le añade la clase `toggled` */
+    .wrapper.toggled .sidebar {
+        width: 80px;
+    }
+    .wrapper.toggled .content-area {
+        margin-left: 80px;
+    }
+
+    /* Ocultar texto y flechas en el estado colapsado */
+    .wrapper.toggled .sidebar .sidebar-header h3,
+    .wrapper.toggled .sidebar .nav-link span,
+    .wrapper.toggled .sidebar .nav-link .bi-chevron-down {
+        display: none;
+    }
+    .wrapper.toggled .sidebar .nav-link i {
+        margin-right: 0;
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* Lógica de auto-expandir en hover (DESKTOP SOLAMENTE) */
+    .wrapper.toggled .sidebar:hover {
+        width: 250px;
+    }
+    .wrapper.toggled .sidebar:hover + .content-area {
+        margin-left: 250px;
+    }
+
+    /* Volver a mostrar el texto cuando el hover lo expande */
+    .wrapper.toggled .sidebar:hover .sidebar-header h3,
+    .wrapper.toggled .sidebar:hover .nav-link span,
+    .wrapper.toggled .sidebar:hover .nav-link .bi-chevron-down {
+        display: block;
+    }
+    .wrapper.toggled .sidebar:hover .nav-link i {
+        margin-right: 10px;
+    }
+}
+
+
+/* --- Lógica Responsive: Móvil (< 992px) --- */
+@media (max-width: 991.98px) {
+    
+    /* El sidebar se oculta por defecto (estado `toggled`) */
+    .sidebar {
+        left: -250px; /* Mueve el sidebar fuera de la pantalla */
+        width: 250px; /* Ancho para cuando se deslice */
+        box-shadow: none;
+    }
+    .content-area {
+        margin-left: 0; /* El contenido no tiene margen en móvil */
+        padding-top: 80px;
+    }
+    
+    /* Cuando el JS elimina la clase `toggled`, el sidebar se desliza a la vista */
+    .wrapper:not(.toggled) .sidebar {
+        left: 0;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    }
+
+    /* Mostrar el overlay cuando el sidebar está abierto */
+    .wrapper:not(.toggled) .overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    /* En móvil, no hay estado de "solo iconos", así que el texto siempre se muestra */
+    .sidebar .sidebar-header h3,
+    .sidebar .nav-link span,
+    .sidebar .nav-link .bi-chevron-down {
+        display: block;
+    }
+}
