@@ -1,17 +1,15 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../features/auth/authSelectors';
 
-// Componentes de Layout
-import MainLayout from '../layout/MainLayout';
-
 // Páginas (Lazy loading para optimización)
-const LoginPage = React.lazy(() => import('../features/auth/pages/LoginPage'));
-const DashboardPage = React.lazy(() => import('../features/dashboard/pages/DashboardPage'));
-/*const ReportsPage = React.lazy(() => import('../features/reports/pages/ReportsPage'));
-const NotFoundPage = React.lazy(() => import('../common/NotFoundPage'));*/
-const ProtectedRoute = React.lazy(() => import('../common/ProtectedRoute')); // También lo hacemos lazy
+const LoginPage      = React.lazy(() => import('../features/auth/pages/LoginPage'));
+const DashboardPage  = React.lazy(() => import('../features/dashboard/pages/DashboardPage'));
+const ProtectedRoute = React.lazy(() => import('../common/ProtectedRoute'));
+const PublicRoute    = React.lazy(() => import('../common/PublicRoute'));
+const MainLayout     = React.lazy(() => import('../layout/MainLayout'));
+
 
 const AppRouter = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -19,33 +17,22 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        {/* Rutas de autenticación */}
-        <Route path="/login" element={
-          isAuthenticated ? <Navigate to="/dashboard" replace /> : (
-              <LoginPage />
-          )
-        } />
+        {/** Rutas públicas */}
+        <Route element={<PublicRoute />}>
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
 
-        {/* Ruta raíz: redirige según el estado de autenticación */}
+        {/** Raíz */}
         <Route path="/" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />} />
 
-        {/* Rutas protegidas (dentro del MainLayout) */}
-        <Route
-          path="/*" // Coincide con cualquier ruta que no sea /login o /
-          element={
-              <ProtectedRoute>
-                <MainLayout>
-                  {/* Rutas anidadas dentro de MainLayout */}
-                  <Routes>
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                    {/*<Route path="/reports" element={<ReportsPage />} />*/}
-                    {/* Añade más rutas autenticadas aquí */}
-                    {/*<Route path="*" element={<NotFoundPage />} /> {/* Ruta 404 dentro del layout */}
-                  </Routes>
-                </MainLayout>
-              </ProtectedRoute>
-          }
-        />
+        {/** Rutas protegidas */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<MainLayout />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+          </Route>
+        </Route>
+
+        {/** Ruta 404 */}
       </Routes>
     </Router>
   );

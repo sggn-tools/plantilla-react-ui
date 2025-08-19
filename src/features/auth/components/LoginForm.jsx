@@ -23,6 +23,7 @@ const LoginForm = () => {
     dispatch(loginStart()); // Indica que el login ha comenzado
     try {
       const data = await loginUser(values);
+      
        // Llama a tu API de login
       dispatch(loginSuccess(data)); // Si es exitoso, actualiza el estado de Redux
       // La redirección se manejará en LoginPage al detectar el cambio en isAuthenticated
@@ -57,7 +58,7 @@ const LoginForm = () => {
           {error && <div className="alert alert-danger mt-3">{error}</div>}
 
           <button type="submit" className="btn btn-primary w-100 mt-3" disabled={isSubmitting || loading}>
-            {loading ? 'Iniciando sesión...' : 'Entrar'}
+            {loading ? 'Iniciando sesión...' : 'Ingresar'}
           </button>
         </Form>
       )}
